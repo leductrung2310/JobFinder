@@ -39,7 +39,7 @@ fun SignUpScreen (
     authResponse.value?.let {
         when(it) {
             is Response.Error -> {
-                Log.e("trung log", it.e?.message.toString())
+                Log.e("On sign up", it.e?.message.toString())
                 var openDialog by remember { mutableStateOf(true) }
                 if(openDialog) {
                     Dialog(onDismissRequest = { openDialog = false }) {
@@ -50,16 +50,14 @@ fun SignUpScreen (
                             onDismiss = {openDialog = false},
                         )
                     }
-                } else {
-
                 }
             }
             is Response.Success -> {
-                Log.e("trung log", "success")
-                onSignUpSuccess
+                Log.e("On sign up", "Success")
+                onSignUpSuccess()
             }
             is Response.Loading -> {
-                Log.e("trung log", "loading")
+                Log.e("On sign up", "Loading")
                 ProgressBar()}
         }
     }

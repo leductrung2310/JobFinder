@@ -1,5 +1,6 @@
 package com.example.jobfinder.ui.authentication.login
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,7 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.VpnKey
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,19 +21,50 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jobfinder.R
-import com.example.jobfinder.ui.authentication.widget.CtButton
-import com.example.jobfinder.ui.authentication.widget.CtTextField
-import com.example.jobfinder.ui.authentication.widget.ImageButton
+import com.example.jobfinder.ui.authentication.widget.*
 import com.example.jobfinder.ui.theme.Grey20
 import com.example.jobfinder.ui.theme.PrimaryColor
 import com.example.jobfinder.ui.theme.White
+import com.example.jobfinder.utils.Response
 
 @Composable
 fun LogInScreen(
     modifier: Modifier = Modifier,
-    onNavigateToSignUp: () -> Unit
+    viewModel: LogInViewModel = hiltViewModel(),
+    onNavigateToSignUp: () -> Unit,
+    onLogInSuccess: () -> Unit
 ) {
+    val authResponse = viewModel.logInResponse.collectAsState()
+    authResponse.value?.let {
+        when(it) {
+            is Response.Error -> {
+                Log.e("On log in", it.e?.message.toString())
+                var openDialog by remember { mutableStateOf(true) }
+                if(openDialog) {
+                    Dialog(onDismissRequest = { openDialog = false }) {
+                        CtDialog(
+                            title = "Error",
+                            message = it.e?.message.toString(),
+                            onAgree = { /*TODO*/ },
+                            onDismiss = {openDialog = false},
+                        )
+                    }
+                }
+            }
+            is Response.Success -> {
+                Log.e("On log in", "Success")
+                onLogInSuccess()
+            }
+            is Response.Loading -> {
+                Log.e("On log in", "Loading")
+                ProgressBar()
+            }
+        }
+    }
+
     Scaffold { _ ->
         Column(
             verticalArrangement = Arrangement.Bottom
@@ -95,10 +127,8 @@ fun LogInScreen(
                         cursorColor = MaterialTheme.colors.primary,
                         focusedIndicatorColor = Color.Gray,
                         leadingIcon = Icons.Default.Email,
-//                    value = uiState.email,
-//                    onValueChange = viewModel::onEmailChange
-                        onValueChange = {},
-                        value = ""
+                        onValueChange = viewModel::onEmailChange,
+                        value = viewModel.inputEmail
                     )
                     CtTextField(
                         hint = "Enter your password",
@@ -106,8 +136,8 @@ fun LogInScreen(
                         backgroundColor = Color.White,
                         cursorColor = MaterialTheme.colors.primary,
                         focusedIndicatorColor = Color.Gray,
-                        onValueChange = {},
-                        value = "",
+                        onValueChange = viewModel::onPasswordChange,
+                        value = viewModel.inputPassword,
                         leadingIcon = Icons.Filled.VpnKey,
 //                    trailingIcon = if (uiState.isPasswordShow) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
 //                    value = uiState.password,
@@ -138,7 +168,7 @@ fun LogInScreen(
                     }
                     CtButton(text = "Sign In",
                         padding = 8.dp,
-                        onClick = { /*TODO*/ })
+                        onClick = { viewModel.logIn() })
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {

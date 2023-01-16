@@ -18,4 +18,13 @@ class AuthenticationServicesImpl @Inject constructor(
             Response.Error(e)
         }
     }
+
+    override suspend fun logInAccount(email: String, password: String): Response<Boolean> {
+        return try {
+            auth.signInWithEmailAndPassword(email, password).await()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Error(e)
+        }
+    }
 }

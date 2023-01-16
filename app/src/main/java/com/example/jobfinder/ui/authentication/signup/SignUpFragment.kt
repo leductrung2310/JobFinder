@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.Navigator
+import androidx.navigation.fragment.findNavController
 import com.example.jobfinder.R
 import com.example.jobfinder.databinding.FragmentLogInBinding
 import com.example.jobfinder.databinding.FragmentSignUpBinding
@@ -40,7 +41,7 @@ class SignUpFragment : Fragment() {
                 JobFinderTheme {
                     SignUpScreen(
                         onSignUpSuccess = {
-                            Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_navigation_home)
+                            findNavController().navigate(R.id.action_signUpFragment_to_navigation_home)
                         }
                     )
                 }

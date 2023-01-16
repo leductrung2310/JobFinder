@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.jobfinder.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_addJobFragment3"
+            app:destination="@id/navigation_add_job" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -23,6 +27,14 @@
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_personal" />
     <fragment
+        android:id="@+id/navigation_add_job"
+        android:name="com.example.jobfinder.ui.home.addjob.AddJobFragment"
+        android:label="fragment_add_job"
+        tools:layout="@layout/fragment_add_job" >
+        <action
+            android:id="@+id/action_addJobFragment3_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home" />
         android:id="@+id/logInFragment2"
         android:name="com.example.jobfinder.ui.authentication.login.LogInFragment"
         android:label="fragment_log_in"

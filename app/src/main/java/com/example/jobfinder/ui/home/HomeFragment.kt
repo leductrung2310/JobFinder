@@ -1,39 +1,118 @@
 package com.example.jobfinder.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+import android.util.Log
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.example.jobfinder.R
+import com.example.jobfinder.base.BaseFragment
 import com.example.jobfinder.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeFragment : Fragment() {
-
+@AndroidEntryPoint
+class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    lateinit var homeViewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
+        homeViewModel =
+            ViewModelProvider(this)[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpObserver()
+        setUpSwipeRefresh()
+        setUpToolbar()
+        binding.addJobButton.setOnClickListener {
+            view.findNavController().navigate(R.id.action_navigation_home_to_addJobFragment3)
+        }
+    }
+
+    private fun setUpObserver() {
+        homeViewModel.homeState.observe(viewLifecycleOwner) {
+            when (it) {
+                is HomeState.Waiting -> {
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE)
+                    Log.i("phat ndt", "home state waiting")
+                }
+                is HomeState.Loading -> {
+                    setViewVisibilityWhenFetchingJob(View.VISIBLE, View.GONE)
+                    Log.i("phat ndt", "home state loading")
+                }
+                is HomeState.Success -> {
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE)
+                    Log.i("phat ndt", "home state success")
+                }
+                is HomeState.Error -> {
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE)
+                    Log.i("phat ndt", "home state error")
+
+                }
+            }
+        }
+    }
+
+    private fun setUpSwipeRefresh() {
+        binding.homeSwipeRefresh.setOnRefreshListener {
+            homeViewModel.fetchJob()
+            binding.homeSwipeRefresh.isRefreshing = false
+        }
+    }
+
+    private fun setUpToolbar() {
+        binding.myToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.searchBtn -> {
+                    setUpSearchView(it)
+                    true;
+                }
+                R.id.filterBtn -> {
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+    }
+
+    private fun setUpSearchView(menuItem: MenuItem) {
+        val searchView = menuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                p0?.let { value ->
+                    Log.i("phat ndt", value)
+                }
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                p0?.let { value ->
+                    Log.i("phat ndt", value)
+                }
+                return true
+            }
+
+        })
+    }
+
+    private fun setViewVisibilityWhenFetchingJob(loadingView: Int, errorView: Int) {
+        binding.fetchJobLoading.visibility = loadingView
+        binding.fetchJobError.visibility = errorView
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

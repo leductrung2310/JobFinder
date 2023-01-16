@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace 'com.example.jobfinder'
-    compileSdk 32
+    compileSdk SDK.COMPILESDK
 
     defaultConfig {
         applicationId "com.example.jobfinder"
-        minSdk 21
-        targetSdk 32
+        minSdk SDK.MINSDK
+        targetSdk SDK.TARGETSDK
         versionCode 1
         versionName "1.0"
 
@@ -39,10 +39,43 @@ android {
     buildFeatures {
         viewBinding true
         compose true
+        dataBinding true
     }
 }
 
 dependencies {
+//    implementation 'androidx.core:core-ktx:1.7.0'
+//    implementation 'androidx.appcompat:appcompat:1.5.1'
+//    implementation 'com.google.android.material:material:1.7.0'
+//    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+//    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+//    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+//    testImplementation 'junit:junit:4.13.2'
+//    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+//    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation(Dependencies.ANDROIDX_CORE_KTX)
+    implementation(Dependencies.ANDROIDX_APPCOMPAT)
+    implementation(Dependencies.MATERIAL)
+    implementation(Dependencies.ANDROIDX_CONSTRAINTLAYOUT)
+    implementation(Dependencies.LIFECYCLE_LIVEDATA_KTX)
+    implementation(Dependencies.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(Dependencies.ANDROIDX_NAVIGATION_FRAGMENT)
+    implementation(Dependencies.ANDROIDX_NAVIGATION_UI)
+    implementation(Dependencies.JUNIT_JUNIT)
+    implementation(Dependencies.ANDROIDX_TEST_JUNIT)
+    implementation(Dependencies.ANDROIDX_TEST_ESPRESSO_CORE)
+
+    //Lottie
+    implementation(Dependencies.LOTTIE)
+
+    //HILT
+    implementation(Dependencies.HILT_ANDROID)
+    kapt(Dependencies.HILT_COMPILER)
+
+    //Swipe refresh layout
+    implementation(Dependencies.SWIPE_REFRESH_LAYOUT)
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

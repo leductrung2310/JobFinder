@@ -6,12 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.example.jobfinder.R
-import com.example.jobfinder.databinding.FragmentHomeBinding
 import com.example.jobfinder.databinding.FragmentLogInBinding
 import com.example.jobfinder.ui.home.HomeViewModel
+import com.example.jobfinder.ui.theme.JobFinderTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LogInFragment : Fragment() {
     private var _binding: FragmentLogInBinding? = null
     private val binding get() = _binding!!
@@ -30,9 +35,21 @@ class LogInFragment : Fragment() {
         _binding = FragmentLogInBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textLogin
-        logInViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                JobFinderTheme {
+                    LogInScreen(
+                        onNavigateToSignUp = {
+                            Navigation.findNavController(requireView())
+                            .navigate(R.id.action_logInFragment2_to_signUpFragment)
+                        },
+                        onLogInSuccess = {
+                            findNavController().navigate(R.id.action_logInFragment2_to_navigation_home)
+                        }
+                    )
+                }
+            }
         }
         return root
     }

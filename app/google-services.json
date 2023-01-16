@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "308973839747",
+    "project_id": "jobfinder-6f35e",
+    "storage_bucket": "jobfinder-6f35e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308973839747:android:5ae343b047e02d262342b6",
+        "android_client_info": {
+          "package_name": "com.example.jobfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308973839747-h430ti018p302ipbme7i6liqpmcnbtgb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jobfinder",
+            "certificate_hash": "c3f46f67878c3cd96f1be6b0e9182088ef1baebb"
+          }
+        },
+        {
+          "client_id": "308973839747-voavvp0b6ssjl7lehnor9ihoeo71ohja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0fed4TOdIy6DMwWOZIzcOquSrwrSMXCw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308973839747-voavvp0b6ssjl7lehnor9ihoeo71ohja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

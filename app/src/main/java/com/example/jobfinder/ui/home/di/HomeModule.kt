@@ -2,6 +2,7 @@ package com.example.jobfinder.ui.home.di
 
 import com.example.jobfinder.data.repository.JobRepository
 import com.example.jobfinder.data.repository.JobRepositoryImpl
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -13,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(ViewModelComponent::class)
 class HomeModule {
     @Provides
-    fun provideJobRepository(): JobRepository {
-        return JobRepositoryImpl()
+    fun provideJobRepository(firebaseFirestore: FirebaseFirestore): JobRepository {
+        return JobRepositoryImpl(firebaseFirestore)
     }
 
 }

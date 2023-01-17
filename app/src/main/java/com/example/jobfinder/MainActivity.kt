@@ -47,10 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         //Set visibility for bottom navigation
         navController.addOnDestinationChangedListener { _: NavController?, navDestination: NavDestination, _: Bundle? ->
-            when(navDestination) {
-                setOf(
-                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-                ) -> binding.navView.visibility = View.VISIBLE
+            when(navDestination.id) {
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications -> binding.navView.visibility = View.VISIBLE
                 else -> binding.navView.visibility = View.GONE
             }
         }

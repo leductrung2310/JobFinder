@@ -52,7 +52,8 @@ class HomeFragment : BaseFragment() {
                 }
                 is HomeState.Success -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.GONE)
-                    Log.i("phat ndt", "home state success")
+                    Log.i("phat ndt", "home state success ${it.jobList.size}")
+
                 }
                 is HomeState.Error -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE)
@@ -93,6 +94,7 @@ class HomeFragment : BaseFragment() {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 p0?.let { value ->
                     Log.i("phat ndt", value)
+                    homeViewModel.searchJob(value)
                 }
                 searchView.clearFocus()
                 return true
@@ -101,10 +103,25 @@ class HomeFragment : BaseFragment() {
             override fun onQueryTextChange(p0: String?): Boolean {
                 p0?.let { value ->
                     Log.i("phat ndt", value)
+                    homeViewModel.searchJob(value)
                 }
                 return true
             }
 
+        })
+
+        menuItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                Log.i("phat ndt", "expand search view")
+                homeViewModel.refreshListJob()
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                Log.i("phat ndt", "close search view")
+                homeViewModel.refreshListJob()
+                return true
+            }
         })
     }
 

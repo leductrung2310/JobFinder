@@ -13,6 +13,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -39,4 +40,8 @@ class AppModule {
     @Singleton
     @Provides
     fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideIODispatcher() = Dispatchers.IO
 }

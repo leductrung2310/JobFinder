@@ -9,13 +9,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(ViewModelComponent::class)
 class HomeModule {
     @Provides
-    fun provideJobRepository(firebaseFirestore: FirebaseFirestore): JobRepository {
-        return JobRepositoryImpl(firebaseFirestore)
+    fun provideJobRepository(firebaseFirestore: FirebaseFirestore, ioDispatcher: CoroutineDispatcher): JobRepository {
+        return JobRepositoryImpl(firebaseFirestore, ioDispatcher)
     }
 
 }

@@ -9,3 +9,10 @@ sealed class HomeState: ViewState {
     data class Success(val jobList: List<Job>) : HomeState()
     data class Error(val error: String?) : HomeState()
 }
+
+sealed class AddJobState: ViewState {
+    object Waiting : AddJobState()
+    object Loading : AddJobState()
+    data class Success(val jobList: String) : AddJobState()
+    data class Error(val error: String?) : AddJobState()
+}

@@ -86,5 +86,4 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
-.gradle/
-local.properties
+.DS_Store

@@ -35,6 +35,8 @@
             android:id="@+id/action_addJobFragment3_to_navigation_home"
             app:destination="@id/navigation_home"
             app:popUpTo="@id/navigation_home" />
+    </fragment>
+    <fragment
         android:id="@+id/logInFragment2"
         android:name="com.example.jobfinder.ui.authentication.login.LogInFragment"
         android:label="fragment_log_in"

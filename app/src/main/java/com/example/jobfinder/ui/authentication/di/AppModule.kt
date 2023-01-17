@@ -6,6 +6,7 @@ import com.example.jobfinder.ui.authentication.usecase.SignUp
 import com.example.jobfinder.ui.authentication.usecase.UseCases
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -32,4 +33,8 @@ class AppModule {
     )= UseCases(
         signUpUseCase = SignUp(services)
     )
+
+    @Singleton
+    @Provides
+    fun provideFirebaseFirestore() = FirebaseFirestore.getInstance()
 }

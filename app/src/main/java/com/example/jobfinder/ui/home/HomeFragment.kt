@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment() {
                 }
                 is HomeState.Error -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE)
-                    Log.i("phat ndt", "home state error")
+                    Log.i("phat ndt", "home state error ${it.error}")
 
                 }
             }

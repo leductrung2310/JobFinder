@@ -2,6 +2,7 @@ package com.example.jobfinder.ui.authentication.di
 
 import com.example.jobfinder.ui.authentication.services.AuthenticationServices
 import com.example.jobfinder.ui.authentication.services.AuthenticationServicesImpl
+import com.example.jobfinder.ui.authentication.usecase.LogIn
 import com.example.jobfinder.ui.authentication.usecase.SignUp
 import com.example.jobfinder.ui.authentication.usecase.UseCases
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +31,7 @@ class AppModule {
     fun provideAuthenticationUC(
         services: AuthenticationServices
     )= UseCases(
-        signUpUseCase = SignUp(services)
+        signUpUseCase = SignUp(services),
+        logInUseCases = LogIn(services)
     )
 }

@@ -7,11 +7,4 @@
         android:title="@string/title_home"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
-
-    <item
-        android:id="@+id/filterBtn"
-        android:icon="@drawable/ic_filter_24"
-        android:title="@string/look_up"
-        app:showAsAction="ifRoom" />
-
 </menu>

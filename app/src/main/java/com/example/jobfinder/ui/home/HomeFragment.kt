@@ -6,9 +6,12 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jobfinder.R
 import com.example.jobfinder.base.BaseFragment
+import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.databinding.FragmentHomeBinding
+import com.example.jobfinder.ui.home.adapter.JobAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -16,7 +19,7 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     lateinit var homeViewModel: HomeViewModel
-
+    private lateinit var jobAdapter: JobAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +39,17 @@ class HomeFragment : BaseFragment() {
         setUpToolbar()
         binding.addJobButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_home_to_addJobFragment3)
+            homeViewModel.addJob(
+                Job(
+                    name = "UI UX DESIGNER",
+                    description = "DESIGN WEB",
+                    company = "Apple",
+                    salary = "2000$",
+                    location = "USA",
+                    createDate = System.currentTimeMillis().toString(),
+                    isLock = false
+                )
+            )
         }
     }
 
@@ -43,20 +57,20 @@ class HomeFragment : BaseFragment() {
         homeViewModel.homeState.observe(viewLifecycleOwner) {
             when (it) {
                 is HomeState.Waiting -> {
-                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE)
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE, View.GONE)
                     Log.i("phat ndt", "home state waiting")
                 }
                 is HomeState.Loading -> {
-                    setViewVisibilityWhenFetchingJob(View.VISIBLE, View.GONE)
-                    Log.i("phat ndt", "home state loading")
+                    setViewVisibilityWhenFetchingJob(View.VISIBLE, View.GONE, View.GONE)
                 }
                 is HomeState.Success -> {
-                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE)
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.GONE, View.VISIBLE)
+                    jobAdapter = JobAdapter(it.jobList)
+                    binding.jobRcv.adapter = jobAdapter
                     Log.i("phat ndt", "home state success ${it.jobList.size}")
-
                 }
                 is HomeState.Error -> {
-                    setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE)
+                    setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE, View.GONE)
                     Log.i("phat ndt", "home state error ${it.error}")
 
                 }
@@ -77,9 +91,6 @@ class HomeFragment : BaseFragment() {
                 R.id.searchBtn -> {
                     setUpSearchView(it)
                     true;
-                }
-                R.id.filterBtn -> {
-                    true
                 }
                 else -> {
                     true
@@ -110,7 +121,7 @@ class HomeFragment : BaseFragment() {
 
         })
 
-        menuItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
+        menuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
                 Log.i("phat ndt", "expand search view")
                 homeViewModel.refreshListJob()
@@ -125,9 +136,14 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-    private fun setViewVisibilityWhenFetchingJob(loadingView: Int, errorView: Int) {
+    private fun setViewVisibilityWhenFetchingJob(
+        loadingView: Int,
+        errorView: Int,
+        jobRcvView: Int
+    ) {
         binding.fetchJobLoading.visibility = loadingView
         binding.fetchJobError.visibility = errorView
+        binding.jobRcv.visibility = jobRcvView
     }
 
 

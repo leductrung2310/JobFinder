@@ -106,6 +106,9 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     //Hilt Navigation Compose
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
+
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
 }
 
 // Allow references to generated code

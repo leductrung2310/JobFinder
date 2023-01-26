@@ -30,40 +30,60 @@ import com.example.jobfinder.utils.Response
 
 
 @Composable
-fun SignUpScreen (
+fun SignUpScreen(
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = hiltViewModel(),
-    onSignUpSuccess: () -> Unit
+    onSignUpSuccess: () -> Unit,
+    onNavigateToLogIn: () -> Unit
 ) {
     val authResponse = viewModel.signUpFlow.collectAsState()
+    var openDialog by remember { mutableStateOf(false) }
     authResponse.value?.let {
-        when(it) {
+        when (it) {
             is Response.Error -> {
                 Log.e("On sign up", it.e?.message.toString())
-                var openDialog by remember { mutableStateOf(true) }
-                if(openDialog) {
-                    Dialog(onDismissRequest = { openDialog = false }) {
+                if (openDialog) {
+                    Dialog(onDismissRequest = { openDialog = !openDialog }) {
                         CtDialog(
                             title = "Error",
                             message = it.e?.message.toString(),
-                            onAgree = { /*TODO*/ },
-                            onDismiss = {openDialog = false},
+                            onDismiss = {
+                                openDialog = !openDialog
+                                viewModel.resetFlow()
+                            },
                         )
                     }
                 }
             }
             is Response.Success -> {
                 Log.e("On sign up", "Success")
-                onSignUpSuccess()
+                viewModel.updateUserName()
+                if (openDialog) {
+                    Dialog(onDismissRequest = { openDialog = !openDialog }) {
+                        CtDialog(
+                            icon = R.drawable.ic_success,
+                            title = "Sign Up Successfully",
+                            onDismiss = {
+                                onSignUpSuccess()
+                                openDialog = !openDialog
+                                viewModel.resetFlow()
+                            },
+                        )
+                    }
+                }
             }
             is Response.Loading -> {
                 Log.e("On sign up", "Loading")
-                ProgressBar()}
+                ProgressBar()
+            }
         }
     }
 
     Scaffold() { values ->
-        Column() {
+        Column(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom
+        ) {
             Box(
                 modifier = modifier
                     .background(PrimaryColor)
@@ -109,13 +129,44 @@ fun SignUpScreen (
                             color = Color.Gray
                         )
 
-                        TextButton(onClick = {}) {
+                        TextButton(onClick = { onNavigateToLogIn() }) {
                             Text(
                                 text = "Sign In",
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Normal,
                                 textAlign = TextAlign.Center,
                                 color = MaterialTheme.colors.primary
+                            )
+                        }
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Box(
+                            modifier = modifier.weight(1f)
+                        ) {
+                            CtTextField(
+                                hint = "First Name",
+                                label = "First Name",
+                                backgroundColor = Color.White,
+                                cursorColor = MaterialTheme.colors.primary,
+                                focusedIndicatorColor = Color.Gray,
+                                onValueChange = viewModel::onFirstNameChange,
+                                value = viewModel.inputFirstName
+                            )
+                        }
+                        Box(
+                            modifier = modifier.weight(1f)
+                        ) {
+                            CtTextField(
+                                hint = "Last Name",
+                                label = "Last Name",
+                                backgroundColor = Color.White,
+                                cursorColor = MaterialTheme.colors.primary,
+                                focusedIndicatorColor = Color.Gray,
+                                onValueChange = viewModel::onLastNameChange,
+                                value = viewModel.inputLastName
                             )
                         }
                     }
@@ -138,11 +189,8 @@ fun SignUpScreen (
                         onValueChange = viewModel::onPasswordChange,
                         value = viewModel.inputPassword,
                         leadingIcon = Icons.Filled.VpnKey,
-//                    trailingIcon = if (uiState.isPasswordShow) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-//                    value = uiState.password,
-//                    onValueChange = viewModel::onPasswordChange,
-//                    isTextVisible = uiState.isPasswordShow,
-//                    onShowTextClick = viewModel::onShowPasswordClick
+                        trailingIcon = true,
+                        isTextVisible = false
                     )
                     CtTextField(
                         hint = "Repeat your password",
@@ -153,41 +201,16 @@ fun SignUpScreen (
                         leadingIcon = Icons.Filled.VpnKey,
                         onValueChange = viewModel::onRepeatPasswordChange,
                         value = viewModel.inputRepeatPassword,
+                        trailingIcon = true,
+                        isTextVisible = false
                     )
                     CtButton(text = "Sign Up",
                         padding = 8.dp,
                         onClick = {
                             viewModel.signUp()
+                            openDialog = true
                         })
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(100.dp))
-                        Text(
-                            text = "or continue with",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            textAlign = TextAlign.Center,
-                            color = Color.Gray,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(100.dp))
-                    }
-                    Row(
-                        modifier = modifier.padding(bottom = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        ImageButton(
-                            image = R.drawable.facebook,
-                            onClick = {}
-                        )
 
-                        ImageButton(
-                            image = R.drawable.google,
-                            onClick = {}
-                        )
-                    }
                 }
             }
         }

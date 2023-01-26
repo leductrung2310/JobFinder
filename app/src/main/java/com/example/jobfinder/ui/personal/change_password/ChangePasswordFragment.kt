@@ -1,25 +1,24 @@
-package com.example.jobfinder.ui.personal
+package com.example.jobfinder.ui.personal.change_password
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.jobfinder.R
+import com.example.jobfinder.databinding.FragmentChangePasswordBinding
 import com.example.jobfinder.databinding.FragmentPersonalBinding
-import com.example.jobfinder.ui.authentication.signup.SignUpScreen
+import com.example.jobfinder.ui.personal.PersonalScreen
+import com.example.jobfinder.ui.personal.PersonalViewModel
 import com.example.jobfinder.ui.theme.JobFinderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PersonalFragment : Fragment() {
-
-    private var _binding: FragmentPersonalBinding? = null
+class ChangePasswordFragment : Fragment() {
+    private var _binding: FragmentChangePasswordBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,25 +29,20 @@ class PersonalFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(PersonalViewModel::class.java)
 
-        _binding = FragmentPersonalBinding.inflate(inflater, container, false)
+        _binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 JobFinderTheme {
-                    PersonalScreen(
-                        onLogOutSuccess = {
-                            findNavController().navigate(R.id.action_navigation_notifications_to_logInFragment2)
+                    ChangePasswordScreen(
+                        onChangePasswordSuccess = {
+                            findNavController().popBackStack()
                         },
-                        onNavigateToChangePassword = {
-                            findNavController().navigate(R.id.action_navigation_notifications_to_changePasswordFragment)
-                        },
-                        onNavigateToAboutUs = {
-                            findNavController().navigate(R.id.action_navigation_notifications_to_aboutUsFragment)
+                        navigateBack = {
+                            findNavController().popBackStack()
                         }
                     )
                 }

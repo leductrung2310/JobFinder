@@ -29,8 +29,6 @@ class LogInFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val logInViewModel =
-            ViewModelProvider(this).get(LogInViewModel::class.java)
 
         _binding = FragmentLogInBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -46,6 +44,9 @@ class LogInFragment : Fragment() {
                         },
                         onLogInSuccess = {
                             findNavController().navigate(R.id.action_logInFragment2_to_navigation_home)
+                        },
+                        onNavigateToForgotPassword = {
+                            findNavController().navigate(R.id.action_logInFragment2_to_forgotPasswordFragment)
                         }
                     )
                 }

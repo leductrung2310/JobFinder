@@ -26,6 +26,7 @@ import com.example.jobfinder.R
 import com.example.jobfinder.ui.authentication.widget.*
 import com.example.jobfinder.ui.theme.Grey20
 import com.example.jobfinder.ui.theme.PrimaryColor
+import com.example.jobfinder.ui.theme.White
 import com.example.jobfinder.utils.Response
 
 
@@ -84,22 +85,16 @@ fun SignUpScreen(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Bottom
         ) {
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "logo",
                 modifier = modifier
-                    .background(PrimaryColor)
-                    .height(80.dp)
-            ) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "logo",
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .width(100.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
+                    .fillMaxWidth()
+                    .height(160.dp)
+                    .padding(bottom = 8.dp)
+                    .background(White),
+                contentScale = ContentScale.FillHeight
+            )
             Box(
                 modifier = modifier
                     .clip(RoundedCornerShape(32.dp))

@@ -57,7 +57,8 @@ class AboutUsFragment : Fragment() {
                             }
 //                            startActivity(intent)
                             startActivity(Intent.createChooser(intent,"Send Email Using: "))
-                        }
+                        },
+                        onNavigateBack = { findNavController().popBackStack() }
                     )
                 }
             }

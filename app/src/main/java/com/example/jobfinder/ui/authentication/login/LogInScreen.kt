@@ -91,9 +91,10 @@ fun LogInScreen(
                 contentDescription = "logo",
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(80.dp)
-                    .background(PrimaryColor),
-                contentScale = ContentScale.Crop
+                    .height(160.dp)
+                    .padding(vertical = 8.dp)
+                    .background(White),
+                contentScale = ContentScale.FillHeight
             )
             Box(
                 modifier = modifier
@@ -209,7 +210,6 @@ fun LogInScreen(
                         )
                     }
                     Row(
-                        modifier = modifier.padding(bottom = 20.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {

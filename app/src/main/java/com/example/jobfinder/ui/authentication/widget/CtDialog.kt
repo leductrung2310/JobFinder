@@ -24,8 +24,9 @@ fun CtDialog(
     modifier: Modifier = Modifier,
     icon: Int = R.drawable.ic_error,
     title: String,
-    message: String,
-    onAgree: () -> Unit,
+    message: String? = null,
+    onAgreeText: String? = null,
+    onAgree: () -> Unit = {},
     onDismiss: () -> Unit
 ) {
     Card(
@@ -47,7 +48,7 @@ fun CtDialog(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .padding(top = 35.dp)
-                    .height(70.dp)
+                    .height(50.dp)
                     .fillMaxWidth(),
             )
 
@@ -61,41 +62,58 @@ fun CtDialog(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 32.sp
+                    fontSize = 24.sp
                 )
-                Text(
-                    text = message,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(top = 10.dp, start = 25.dp, end = 25.dp)
-                        .fillMaxWidth(),
-                )
-            }
-            //.......................................................................
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp)
-                    .background(PrimaryColor),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Button(
-                    onClick = onAgree,
-                    modifier = modifier.weight(1f)
-                ) {
+                if(message != null) {
                     Text(
-                        "Agree",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
+                        text = message,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(top = 10.dp, start = 25.dp, end = 25.dp)
+                            .fillMaxWidth(),
                     )
                 }
+            }
+            //.......................................................................
+            if(onAgreeText != null) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 10.dp)
+                        .background(PrimaryColor),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Button(
+                        onClick = onAgree,
+                        modifier = modifier.weight(1f)
+                    ) {
+                        Text(
+                            onAgreeText,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
+                        )
+                    }
+                    Button(
+                        onClick = onDismiss,
+                        modifier = modifier.weight(1f)
+                    ) {
+                        Text(
+                            "Cancel",
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White,
+                            modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)
+                        )
+                    }
+                }
+            } else {
                 Button(
                     onClick = onDismiss,
-                    modifier = modifier.weight(1f)
+                    modifier = modifier.fillMaxWidth().height(56.dp)
+                        .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
                 ) {
                     Text(
-                        "Cancel",
+                        "OK",
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
                         modifier = Modifier.padding(top = 5.dp, bottom = 5.dp)

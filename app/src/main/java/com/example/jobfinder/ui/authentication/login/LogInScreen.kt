@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jobfinder.R
+import com.example.jobfinder.ui.authentication.usecases.ForgotPassword
 import com.example.jobfinder.ui.authentication.widget.*
 import com.example.jobfinder.ui.theme.Grey20
 import com.example.jobfinder.ui.theme.PrimaryColor
@@ -35,28 +36,43 @@ fun LogInScreen(
     modifier: Modifier = Modifier,
     viewModel: LogInViewModel = hiltViewModel(),
     onNavigateToSignUp: () -> Unit,
-    onLogInSuccess: () -> Unit
+    onLogInSuccess: () -> Unit,
+    onNavigateToForgotPassword: () -> Unit
 ) {
     val authResponse = viewModel.logInResponse.collectAsState()
+    var openDialog by remember { mutableStateOf(false) }
     authResponse.value?.let {
-        when(it) {
+        when (it) {
             is Response.Error -> {
                 Log.e("On log in", it.e?.message.toString())
-                var openDialog by remember { mutableStateOf(true) }
-                if(openDialog) {
-                    Dialog(onDismissRequest = { openDialog = false }) {
+                if (openDialog) {
+                    Dialog(onDismissRequest = { openDialog = !openDialog }) {
                         CtDialog(
                             title = "Error",
                             message = it.e?.message.toString(),
-                            onAgree = { /*TODO*/ },
-                            onDismiss = {openDialog = false},
+                            onDismiss = {
+                                openDialog = !openDialog
+                                viewModel.resetFlow()
+                            },
                         )
                     }
                 }
             }
             is Response.Success -> {
                 Log.e("On log in", "Success")
-                onLogInSuccess()
+                if (openDialog) {
+                    Dialog(onDismissRequest = { openDialog = !openDialog }) {
+                        CtDialog(
+                            icon = R.drawable.ic_success,
+                            title = "Log In Successfully",
+                            onDismiss = {
+                                openDialog = !openDialog
+                                viewModel.resetFlow()
+                                onLogInSuccess()
+                            },
+                        )
+                    }
+                }
             }
             is Response.Loading -> {
                 Log.e("On log in", "Loading")
@@ -65,8 +81,9 @@ fun LogInScreen(
         }
     }
 
-    Scaffold { _ ->
+    Scaffold { values ->
         Column(
+            modifier = modifier.fillMaxSize().padding(values),
             verticalArrangement = Arrangement.Bottom
         ) {
             Image(
@@ -74,9 +91,10 @@ fun LogInScreen(
                 contentDescription = "logo",
                 modifier = modifier
                     .fillMaxWidth()
-                    .height(80.dp)
-                    .background(PrimaryColor),
-                contentScale = ContentScale.Crop
+                    .height(160.dp)
+                    .padding(vertical = 8.dp)
+                    .background(White),
+                contentScale = ContentScale.FillHeight
             )
             Box(
                 modifier = modifier
@@ -139,18 +157,15 @@ fun LogInScreen(
                         onValueChange = viewModel::onPasswordChange,
                         value = viewModel.inputPassword,
                         leadingIcon = Icons.Filled.VpnKey,
-//                    trailingIcon = if (uiState.isPasswordShow) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-//                    value = uiState.password,
-//                    onValueChange = viewModel::onPasswordChange,
-//                    isTextVisible = uiState.isPasswordShow,
-//                    onShowTextClick = viewModel::onShowPasswordClick
+                        trailingIcon = true,
+                        isTextVisible = false
                     )
                     Row(
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End
                     ) {
                         TextButton(
-                            onClick = {},
+                            onClick = { onNavigateToForgotPassword() },
                             modifier = modifier
                                 .wrapContentSize()
                                 .padding(end = 12.dp),
@@ -168,11 +183,18 @@ fun LogInScreen(
                     }
                     CtButton(text = "Sign In",
                         padding = 8.dp,
-                        onClick = { viewModel.logIn() })
+                        onClick = {
+                            viewModel.logIn()
+                            openDialog = true
+                        })
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(100.dp))
+                        Divider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.width(100.dp)
+                        )
                         Text(
                             text = " or continue with ",
                             fontSize = 14.sp,
@@ -181,10 +203,13 @@ fun LogInScreen(
                             color = Color.Gray,
                             modifier = Modifier.padding(12.dp)
                         )
-                        Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.width(100.dp))
+                        Divider(
+                            color = Color.Gray,
+                            thickness = 1.dp,
+                            modifier = Modifier.width(100.dp)
+                        )
                     }
                     Row(
-                        modifier = modifier.padding(bottom = 20.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {

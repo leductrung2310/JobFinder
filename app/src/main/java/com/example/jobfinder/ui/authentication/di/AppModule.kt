@@ -2,9 +2,7 @@ package com.example.jobfinder.ui.authentication.di
 
 import com.example.jobfinder.ui.authentication.services.AuthenticationServices
 import com.example.jobfinder.ui.authentication.services.AuthenticationServicesImpl
-import com.example.jobfinder.ui.authentication.usecase.LogIn
-import com.example.jobfinder.ui.authentication.usecase.SignUp
-import com.example.jobfinder.ui.authentication.usecase.UseCases
+import com.example.jobfinder.ui.authentication.usecases.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,9 +29,13 @@ class AppModule {
     @Provides
     fun provideAuthenticationUC(
         services: AuthenticationServices
-    )= UseCases(
+    )= AuthenticationUseCases(
         signUpUseCase = SignUp(services),
-        logInUseCases = LogIn(services)
+        logInUseCases = LogIn(services),
+        logOutUseCases = LogOut(services),
+        changePasswordUseCase = ChangePassword(services),
+        updateProfileUseCase = UpdateProfile(services),
+        forgotPasswordUseCase = ForgotPassword(services)
     )
 
     @Singleton

@@ -68,7 +68,7 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
 
     fun searchJob(text: String) {
         _homeState.value = HomeState.Success(listJob.filter {
-            it.name?.contains(text) ?: false
+            it.title?.contains(text) ?: false
         })
     }
 

@@ -39,17 +39,17 @@ class HomeFragment : BaseFragment() {
         setUpToolbar()
         binding.addJobButton.setOnClickListener {
             view.findNavController().navigate(R.id.action_navigation_home_to_addJobFragment3)
-            homeViewModel.addJob(
-                Job(
-                    name = "UI UX DESIGNER",
-                    description = "DESIGN WEB",
-                    company = "Apple",
-                    salary = "2000$",
-                    location = "USA",
-                    createDate = System.currentTimeMillis().toString(),
-                    isLock = false
-                )
-            )
+//            homeViewModel.addJob(
+//                Job(
+//                    name = "UI UX DESIGNER",
+//                    description = "DESIGN WEB",
+//                    company = "Apple",
+//                    salary = "2000$",
+//                    location = "USA",
+//                    createDate = System.currentTimeMillis().toString(),
+//                    isLock = false
+//                )
+//            )
         }
     }
 

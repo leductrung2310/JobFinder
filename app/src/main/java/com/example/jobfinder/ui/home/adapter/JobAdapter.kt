@@ -22,12 +22,12 @@ class JobAdapter(private val jobs: List<Job>) : RecyclerView.Adapter<JobAdapter.
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val job = jobs[position]
-        holder.title.text = job.name
-        holder.salaryRange.text = job.salary
-        holder.companyName.text = job.company
+        holder.title.text = job.title
+        holder.salaryRange.text = job.salary_range
+        holder.companyName.text = job.company_profile
         holder.location.text = job.location
         val calendar = Calendar.getInstance()
-        calendar.time = Date(job.createDate?.toLong() ?: (System.currentTimeMillis() / 1000))
+        calendar.time = Date(job.created_date?.toLong() ?: (System.currentTimeMillis() / 1000))
         holder.jobDay.text = getDayName(calendar.get(Calendar.DAY_OF_WEEK))
         holder.jobDate.text = calendar.get(Calendar.DATE).toString()
         holder.jobMonth.text = getMonthName(calendar.get(Calendar.MONTH))

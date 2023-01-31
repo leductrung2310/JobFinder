@@ -34,7 +34,8 @@ class JobRepositoryImpl @Inject constructor(
 
     override fun addJob(job: Job): Flow<OutCome<String>> = flow {
         emit(OutCome.InProgress)
-        val documentReference = firebaseFirestore.collection("jobs").add(job.toMap()).await()
+        val x = job.toMap()
+        val documentReference = firebaseFirestore.collection("jobs").add(x).await()
         emit(OutCome.Success(documentReference.id))
     }.catch {
         emit(OutCome.Error(it))

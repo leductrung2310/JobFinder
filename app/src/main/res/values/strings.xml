@@ -8,4 +8,209 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_a_new_job">Add a new job</string>
+    <string-array name="employee_type">
+        <item>Full time</item>
+        <item>Part time</item>
+        <item>Contract</item>
+        <item>Temporary</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="required_experience">
+        <item>Associate</item>
+        <item>Director</item>
+        <item>Entry level</item>
+        <item>Executive</item>
+        <item>Internship</item>
+        <item>Mid-Senior level</item>
+        <item>Not applicable</item>
+        <item>Associate Degree</item>
+        <item>Associate Degree</item>
+    </string-array>
+    <string-array name="required_education">
+        <item>Associate Degree</item>
+        <item>Bachelor\'s Degree</item>
+        <item>Certification</item>
+        <item>Doctorate</item>
+        <item>High school or equivalent</item>
+        <item>Master\'s Degree</item>
+        <item>Professional</item>
+        <item>Some College Coursework Completed</item>
+        <item>Some High School Coursework</item>
+        <item>Unspecified</item>
+        <item>Vocational</item>
+        <item>Vocational - Dregree</item>
+        <item>Vocational - HS Diploma</item>
+    </string-array>
+    <string-array name="industry">
+        <item>Accounting</item>
+        <item>Airlines/Aviation</item>
+        <item>Alternative Dispute Resolution</item>
+        <item>Animation</item>
+        <item>Apparel &amp; Fashion</item>
+        <item>Architecture &amp; Planning</item>
+        <item>Automotive</item>
+        <item>Aviation &amp; Aerospace</item>
+        <item>Banking</item>
+        <item>Biotechnology</item>
+        <item>Broadcast Media</item>
+        <item>Building Materials</item>
+        <item>Business Supplies and Equipment</item>
+        <item>Capital Markets</item>
+        <item>Chemicals</item>
+        <item>Civic &amp; Social Organization</item>
+        <item>Civil Engineering</item>
+        <item>Commercial Real Estate</item>
+        <item>Computer &amp; Network Security</item>
+        <item>Computer Games</item>
+        <item>Computer Hardware</item>
+        <item>Computer Networking</item>
+        <item>Computer Software</item>
+        <item>Construction</item>
+        <item>Consumer Electronics</item>
+        <item>Consumer Goods</item>
+        <item>Consumer Services</item>
+        <item>Cosmetics</item>
+        <item>Defense &amp; Space</item>
+        <item>Design</item>
+        <item>Education Management</item>
+        <item>E-Learning</item>
+        <item>Electrical/Electronic Manufacturing</item>
+        <item>Entertainment</item>
+        <item>Environmental Services</item>
+        <item>Events Services</item>
+        <item>Executive Office</item>
+        <item>Facilities Services</item>
+        <item>Farming</item>
+        <item>Financial Services</item>
+        <item>Fishery</item>
+        <item>Food &amp; Beverages</item>
+        <item>Food Production</item>
+        <item>Fund-Raising</item>
+        <item>Furniture</item>
+        <item>Gambling &amp; Casinos</item>
+        <item>Government Administration</item>
+        <item>Government Relations</item>
+        <item>Graphic Design</item>
+        <item>Health, Wellness and Fitness</item>
+        <item>Higher Education</item>
+        <item>Hospital &amp; Health Care</item>
+        <item>Hospitality</item>
+        <item>Human Resources</item>
+        <item>Import and Export</item>
+        <item>Individual &amp; Family Services</item>
+        <item>Industrial Automation</item>
+        <item>Information Services</item>
+        <item>Information Technology and Services</item>
+        <item>Insurance</item>
+        <item>International Trade and Development</item>
+        <item>Internet</item>
+        <item>Investment Banking</item>
+        <item>Investment Management</item>
+        <item>Law Enforcement</item>
+        <item>Law Practice</item>
+        <item>Legal Services</item>
+        <item>Leisure, Travel &amp; Tourism</item>
+        <item>Libraries</item>
+        <item>Logistics and Supply Chain</item>
+        <item>Luxury Goods &amp; Jewelry</item>
+        <item>Machinery</item>
+        <item>Management Consulting</item>
+        <item>Maritime</item>
+        <item>Market Research</item>
+        <item>Marketing and Advertising</item>
+        <item>Mechanical or Industrial Engineering</item>
+        <item>Media Production</item>
+        <item>Medical Devices</item>
+        <item>Medical Practice</item>
+        <item>Mental Health Care</item>
+        <item>Military</item>
+        <item>Mining &amp; Metals</item>
+        <item>Motion Pictures and Film</item>
+        <item>Museums and Institutions</item>
+        <item>Music</item>
+        <item>Nanotechnology</item>
+        <item>Nonprofit Organization Management</item>
+        <item>Oil &amp; Energy</item>
+        <item>Online Media</item>
+        <item>Outsourcing/Offshoring</item>
+        <item>Package/Freight Delivery</item>
+        <item>Packaging and Containers</item>
+        <item>Performing Arts</item>
+        <item>Pharmaceuticals</item>
+        <item>Philanthropy</item>
+        <item>Photography</item>
+        <item>Plastics</item>
+        <item>Primary/Secondary Education</item>
+        <item>Printing</item>
+        <item>Professional Training &amp; Coaching</item>
+        <item>Program Development</item>
+        <item>Public Policy</item>
+        <item>Public Relations and Communications</item>
+        <item>Public Safety</item>
+        <item>Publishing</item>
+        <item>Ranching</item>
+        <item>Real Estate</item>
+        <item>Religious Institutions</item>
+        <item>Renewables &amp; Environment</item>
+        <item>Research</item>
+        <item>Restaurants</item>
+        <item>Retail</item>
+        <item>Security and Investigations</item>
+        <item>Semiconductors</item>
+        <item>Shipbuilding</item>
+        <item>Sporting Goods</item>
+        <item>Sports</item>
+        <item>Staffing and Recruiting</item>
+        <item>Telecommunications</item>
+        <item>Textiles</item>
+        <item>Translation and Localization</item>
+        <item>Transportation/Trucking/Railroad</item>
+        <item>Utilities</item>
+        <item>Venture Capital &amp; Private Equity</item>
+        <item>Veterinary</item>
+        <item>Warehousing</item>
+        <item>Wholesale</item>
+        <item>Wine and Spirits</item>
+        <item>Wireless</item>
+        <item>Writing and Editing</item>
+    </string-array>
+    <string-array name="function">
+        <item>Accountant/Auditing</item>
+        <item>Administrative</item>
+        <item>Advertising</item>
+        <item>Art/Creative</item>
+        <item>Business Analyst</item>
+        <item>Business Development</item>
+        <item>Consulting</item>
+        <item>Customer Service</item>
+        <item>Data analyst</item>
+        <item>Design</item>
+        <item>Distribution</item>
+        <item>Education</item>
+        <item>Engineering</item>
+        <item>Finance</item>
+        <item>Financial Analyst</item>
+        <item>General Business</item>
+        <item>Health Care Provider</item>
+        <item>Human Resources</item>
+        <item>Information Technology</item>
+        <item>Legal</item>
+        <item>Management</item>
+        <item>Manufacturing</item>
+        <item>Marketing</item>
+        <item>Product Management</item>
+        <item>Production</item>
+        <item>Project management</item>
+        <item>Public Relations</item>
+        <item>Purchasing</item>
+        <item>Quality Assurance</item>
+        <item>Research</item>
+        <item>Sale</item>
+        <item>Science</item>
+        <item>Strategy/Planning</item>
+        <item>Supply Chain</item>
+        <item>Training</item>
+        <item>Writing/Editing</item>
+        <item>Other</item>
+    </string-array>
 </resources>

@@ -9,22 +9,26 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.jobfinder.R
 import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.databinding.FragmentAddJobBinding
+import com.example.jobfinder.ui.home.AddJobState
 import com.example.jobfinder.ui.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import es.dmoral.toasty.Toasty
 
 @AndroidEntryPoint
 class AddJobFragment : Fragment() {
     private var _binding: FragmentAddJobBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private var isTelecommuting: Int = 0;
-    private var isLogo: Int = 0;
-    private var isQuestion: Int = 0;
+    private var isTelecommuting: Int = 0
+    private var isLogo: Int = 0
+    private var isQuestion: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,6 +43,42 @@ class AddJobFragment : Fragment() {
 
         binding.myToolbar.setNavigationOnClickListener {
             view.findNavController().navigate(R.id.action_addJobFragment3_to_navigation_home)
+        }
+
+        homeViewModel.isEnableAddJobButton.observe(viewLifecycleOwner) {
+            binding.addJobButton.isEnabled = it
+        }
+
+        homeViewModel.addJobState.observe(viewLifecycleOwner) {
+            when (it) {
+                is AddJobState.Waiting -> {
+                }
+                is AddJobState.Loading -> {
+                    Toasty.info(
+                        requireContext(),
+                        "Waiting to add job!",
+                        Toast.LENGTH_SHORT,
+                        true,
+                    ).show()
+                }
+                is AddJobState.Success -> {
+                    Toasty.success(
+                        requireContext(),
+                        "Add job successfully",
+                        Toast.LENGTH_LONG,
+                        true
+                    ).show()
+                    findNavController().popBackStack()
+                }
+                is AddJobState.Error -> {
+                    Toasty.error(
+                        requireContext(),
+                        "Some thing wrong when add job!",
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
+                }
+            }
         }
 
         setUpEventButton()
@@ -59,6 +99,7 @@ class AddJobFragment : Fragment() {
                 binding.requirements.text?.isNotEmpty() == true &&
                 binding.salaryRange.text?.isNotEmpty() == true
             ) {
+                binding.addJobButton.isEnabled = false
                 val job = Job(
                     title = binding.title.text.toString(),
                     location = binding.location.text.toString(),
@@ -74,13 +115,18 @@ class AddJobFragment : Fragment() {
                     industry = binding.industrySpinner.selectedItem.toString(),
                     function = binding.functionSpinner.selectedItem.toString(),
                     salary_range = binding.salaryRange.text.toString(),
-                    report_count = 0,
+                    report_count = emptyList(),
                     created_date = System.currentTimeMillis().toString(),
                     is_fake = false,
                 )
                 homeViewModel.addJob(job)
             } else {
-                val job = 2;
+                Toasty.info(
+                    requireContext(),
+                    "Please fill full information!",
+                    Toast.LENGTH_SHORT,
+                    true,
+                ).show()
             }
         }
 
@@ -197,7 +243,7 @@ class AddJobFragment : Fragment() {
     }
 
     private fun setUpRadioButton() {
-        binding.telecommuting.setOnCheckedChangeListener { radioGroup, i ->
+        binding.telecommuting.setOnCheckedChangeListener { _, i ->
             isTelecommuting = if (i == R.id.yesTelecommuting) {
                 1
             } else {
@@ -205,7 +251,7 @@ class AddJobFragment : Fragment() {
             }
         }
 
-        binding.logo.setOnCheckedChangeListener { radioGroup, i ->
+        binding.logo.setOnCheckedChangeListener { _, i ->
             isLogo = if (i == R.id.yesLogo) {
                 1
             } else {
@@ -213,7 +259,7 @@ class AddJobFragment : Fragment() {
             }
         }
 
-        binding.question.setOnCheckedChangeListener { radioGroup, i ->
+        binding.question.setOnCheckedChangeListener { _, i ->
             isQuestion = if (i == R.id.yesLogo) {
                 1
             } else {

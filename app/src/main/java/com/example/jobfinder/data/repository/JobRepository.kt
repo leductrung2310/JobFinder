@@ -5,9 +5,6 @@ import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.data.model.toMap
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -15,6 +12,7 @@ import javax.inject.Inject
 interface JobRepository {
     fun fetchJobs(): Flow<OutCome<List<Job>>>
     fun addJob(job: Job): Flow<OutCome<String>>
+    fun reportJob(job: Job): Flow<OutCome<Void?>>
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -34,9 +32,20 @@ class JobRepositoryImpl @Inject constructor(
 
     override fun addJob(job: Job): Flow<OutCome<String>> = flow {
         emit(OutCome.InProgress)
-        val x = job.toMap()
-        val documentReference = firebaseFirestore.collection("jobs").add(x).await()
+        val documentReference = firebaseFirestore.collection("jobs").add(job.toMap()).await()
         emit(OutCome.Success(documentReference.id))
+    }.catch {
+        emit(OutCome.Error(it))
+    }.flowOn(ioDispatcher)
+
+    override fun reportJob(job: Job): Flow<OutCome<Void?>> = flow {
+        emit(OutCome.InProgress)
+        job.id?.let {
+            firebaseFirestore.collection("jobs").document(it)
+                .update(mapOf("report_count" to job.report_count))
+                .await()
+        }
+        emit(OutCome.Success(null))
     }.catch {
         emit(OutCome.Error(it))
     }.flowOn(ioDispatcher)

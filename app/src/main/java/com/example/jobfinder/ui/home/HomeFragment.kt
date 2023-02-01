@@ -1,21 +1,32 @@
 package com.example.jobfinder.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.example.jobfinder.R
 import com.example.jobfinder.base.BaseFragment
 import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.databinding.FragmentHomeBinding
 import com.example.jobfinder.ui.home.adapter.JobAdapter
+import com.example.jobfinder.ui.home.adapter.OnClickListener
+import com.example.jobfinder.ui.home.adapter.OnLongClickListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import es.dmoral.toasty.Toasty
+
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment(), OnClickListener, OnLongClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     lateinit var homeViewModel: HomeViewModel
@@ -65,7 +76,7 @@ class HomeFragment : BaseFragment() {
                 }
                 is HomeState.Success -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.GONE, View.VISIBLE)
-                    jobAdapter = JobAdapter(it.jobList)
+                    jobAdapter = JobAdapter(it.jobList, this, this)
                     binding.jobRcv.adapter = jobAdapter
                     Log.i("phat ndt", "home state success ${it.jobList.size}")
                 }
@@ -73,6 +84,32 @@ class HomeFragment : BaseFragment() {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.VISIBLE, View.GONE)
                     Log.i("phat ndt", "home state error ${it.error}")
 
+                }
+            }
+        }
+
+        homeViewModel.reportJob.observe(viewLifecycleOwner) {
+            when (it) {
+                is ReportJobState.Waiting -> {
+                }
+                is ReportJobState.Loading -> {
+                }
+                is ReportJobState.Success -> {
+                    Toasty.success(
+                        requireContext(),
+                        "Report this job successfully",
+                        Toast.LENGTH_LONG,
+                        true
+                    ).show();
+                    homeViewModel.fetchJob()
+                }
+                is ReportJobState.Error -> {
+                    Toasty.error(
+                        requireContext(),
+                        "Some thing wrong when reporting this job!",
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show();
                 }
             }
         }
@@ -146,9 +183,49 @@ class HomeFragment : BaseFragment() {
         binding.jobRcv.visibility = jobRcvView
     }
 
+    private fun openReportDialog(job: Job) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Report jobs")
+            .setMessage("Do you want to report this job?")
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Yes") { dialog, _ ->
+                Firebase.auth.currentUser?.let {
+                    if (job.report_count?.contains(it.uid) == true) {
+                        Toasty.info(
+                            requireContext(),
+                            "You have reported this job!",
+                            Toast.LENGTH_SHORT,
+                            true,
+                        ).show();
+                    } else {
+                        val reportCount = job.report_count?.toMutableList()
+                        reportCount?.add(it.uid)
+                        homeViewModel.reportJob(job.copy(report_count = reportCount))
+
+                    }
+                }
+                dialog.dismiss()
+            }
+            .show()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onClick(job: Job) {
+        Toasty.info(
+            requireContext(),
+            "Waiting to add job!",
+            Toast.LENGTH_SHORT,
+            true,
+        ).show();
+    }
+
+    override fun onLongClick(job: Job) {
+        openReportDialog(job)
     }
 }

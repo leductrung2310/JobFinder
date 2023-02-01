@@ -17,7 +17,7 @@ data class Job(
     val industry: String? = null,
     val function: String? = null,
     val salary_range: String? = null,
-    val report_count: Int? = null,
+    val report_count: List<String>? = null,
     val created_date: String? = null,
     val is_fake: Boolean? = null
 )

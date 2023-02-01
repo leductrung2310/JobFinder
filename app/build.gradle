@@ -108,7 +108,7 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
 
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
-
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 }
 
 // Allow references to generated code

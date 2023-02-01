@@ -16,3 +16,10 @@ sealed class AddJobState: ViewState {
     data class Success(val jobList: String) : AddJobState()
     data class Error(val error: String?) : AddJobState()
 }
+
+sealed class ReportJobState: ViewState {
+    object Waiting : ReportJobState()
+    object Loading : ReportJobState()
+    data class Success(val value: Void?) : ReportJobState()
+    data class Error(val error: String?) : ReportJobState()
+}

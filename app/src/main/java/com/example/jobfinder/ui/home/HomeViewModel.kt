@@ -25,6 +25,14 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
         get() = _searchJobLiveData
     private var listJob: List<Job> = mutableListOf()
 
+    private val _isEnableAddJobButton = MutableLiveData(true)
+    val isEnableAddJobButton: LiveData<Boolean>
+        get() = _isEnableAddJobButton
+
+    private val _reportJob = MutableLiveData<ReportJobState>(ReportJobState.Waiting)
+    val reportJob: LiveData<ReportJobState>
+        get() = _reportJob
+
     init {
         fetchJob()
     }
@@ -49,17 +57,39 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
     }
 
     fun addJob(job: Job) {
+        _isEnableAddJobButton.value = false
         viewModelScope.launch {
             jobRepository.addJob(job).collect {
                 when (it) {
                     is OutCome.InProgress -> {
                         _addJobState.value = AddJobState.Loading
+
                     }
                     is OutCome.Success -> {
                         _addJobState.value = AddJobState.Success(it.value)
+                        _isEnableAddJobButton.value = true
                     }
                     is OutCome.Error -> {
                         _addJobState.value = AddJobState.Error(it.value.message)
+                        _isEnableAddJobButton.value = true
+                    }
+                }
+            }
+        }
+    }
+
+    fun reportJob(job: Job) {
+        viewModelScope.launch {
+            jobRepository.reportJob(job).collect {
+                when (it) {
+                    is OutCome.InProgress -> {
+                        _reportJob.value = ReportJobState.Loading
+                    }
+                    is OutCome.Success -> {
+                        _reportJob.value = ReportJobState.Success(it.value)
+                    }
+                    is OutCome.Error -> {
+                        _reportJob.value = ReportJobState.Error(it.value.message)
                     }
                 }
             }

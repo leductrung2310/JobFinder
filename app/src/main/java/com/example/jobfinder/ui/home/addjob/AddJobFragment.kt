@@ -33,7 +33,7 @@ class AddJobFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+        homeViewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         _binding = FragmentAddJobBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -271,4 +271,11 @@ class AddJobFragment : Fragment() {
 
 fun Int.toBoolean(): Boolean {
     return this == 1
+}
+
+fun Boolean.toYesNo(): String {
+    if (this) {
+        return "Yes"
+    }
+    return "No"
 }

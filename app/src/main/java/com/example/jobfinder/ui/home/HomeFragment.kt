@@ -1,16 +1,12 @@
 package com.example.jobfinder.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.example.jobfinder.R
 import com.example.jobfinder.base.BaseFragment
 import com.example.jobfinder.data.model.Job
@@ -37,7 +33,7 @@ class HomeFragment : BaseFragment(), OnClickListener, OnLongClickListener {
         savedInstanceState: Bundle?
     ): View {
         homeViewModel =
-            ViewModelProvider(this)[HomeViewModel::class.java]
+            ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -217,12 +213,8 @@ class HomeFragment : BaseFragment(), OnClickListener, OnLongClickListener {
     }
 
     override fun onClick(job: Job) {
-        Toasty.info(
-            requireContext(),
-            "Waiting to add job!",
-            Toast.LENGTH_SHORT,
-            true,
-        ).show();
+        homeViewModel.setSelectedJob(job)
+        view?.findNavController()?.navigate(R.id.action_navigation_home_to_viewJobFragment)
     }
 
     override fun onLongClick(job: Job) {

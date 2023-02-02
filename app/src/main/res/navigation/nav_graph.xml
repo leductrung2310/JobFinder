@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_addJobFragment3"
             app:destination="@id/navigation_add_job" />
+        <action
+            android:id="@+id/action_navigation_home_to_viewJobFragment"
+            app:destination="@id/viewJobFragment" />
     </fragment>
 
     <fragment
@@ -61,5 +64,14 @@
             app:destination="@id/navigation_home"
             app:popUpTo="@id/signUpFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewJobFragment"
+        android:name="com.example.jobfinder.ui.home.viewjob.ViewJobFragment"
+        android:label="ViewJobFragment" >
+        <action
+            android:id="@+id/action_viewJobFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home" />
     </fragment>
 </navigation>

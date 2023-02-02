@@ -33,8 +33,16 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
     val reportJob: LiveData<ReportJobState>
         get() = _reportJob
 
+    private val _selectedJob = MutableLiveData<Job>()
+    val selectedJob: LiveData<Job>
+        get() = _selectedJob
+
     init {
         fetchJob()
+    }
+
+    fun setSelectedJob(job: Job) {
+        _selectedJob.value = job
     }
 
     fun fetchJob() {

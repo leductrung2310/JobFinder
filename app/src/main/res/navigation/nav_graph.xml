@@ -19,12 +19,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.jobfinder.ui.lookup.LookUpFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_lookup" />
-
-    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.jobfinder.ui.personal.PersonalFragment"
         android:label="@string/title_notifications"
@@ -97,7 +91,6 @@
         android:name="com.example.jobfinder.ui.personal.change_password.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
-    </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.example.jobfinder.ui.personal.about_us.AboutUsFragment"
@@ -108,5 +101,4 @@
         android:name="com.example.jobfinder.ui.authentication.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
-    </fragment>
 </navigation>

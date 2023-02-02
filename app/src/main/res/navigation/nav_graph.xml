@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_addJobFragment3"
             app:destination="@id/navigation_add_job" />
+        <action
+            android:id="@+id/action_navigation_home_to_viewJobFragment"
+            app:destination="@id/viewJobFragment" />
     </fragment>
 
     <fragment
@@ -81,10 +84,20 @@
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
+        android:id="@+id/viewJobFragment"
+        android:name="com.example.jobfinder.ui.home.viewjob.ViewJobFragment"
+        android:label="ViewJobFragment" >
+        <action
+            android:id="@+id/action_viewJobFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home" />
+    </fragment>
+    <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.example.jobfinder.ui.personal.change_password.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
+    </fragment>
     <fragment
         android:id="@+id/aboutUsFragment"
         android:name="com.example.jobfinder.ui.personal.about_us.AboutUsFragment"
@@ -95,4 +108,5 @@
         android:name="com.example.jobfinder.ui.authentication.forgot_password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    </fragment>
 </navigation>

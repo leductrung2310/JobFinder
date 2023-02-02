@@ -109,6 +109,8 @@ dependencies {
 
     //gif
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
 }
 
 // Allow references to generated code

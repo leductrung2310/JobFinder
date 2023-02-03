@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.jobfinder.core.OutCome
 import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.data.repository.JobRepository
+import com.example.jobfinder.data.repository.toBoolean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,6 +46,10 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
         _selectedJob.value = job
     }
 
+    fun setAddJobState() {
+        _addJobState.value = AddJobState.Waiting
+    }
+
     fun fetchJob() {
         viewModelScope.launch {
             jobRepository.fetchJobs().collect {
@@ -71,7 +76,6 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
                 when (it) {
                     is OutCome.InProgress -> {
                         _addJobState.value = AddJobState.Loading
-
                     }
                     is OutCome.Success -> {
                         _addJobState.value = AddJobState.Success(it.value)
@@ -104,6 +108,25 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
         }
     }
 
+    fun checkFakeJob(job: Job) {
+        viewModelScope.launch {
+            jobRepository.checkFakeJob(job).collect {
+                when (it) {
+                    is OutCome.InProgress -> {
+                        _addJobState.value = AddJobState.Loading
+                    }
+                    is OutCome.Success -> {
+                        val value = job.copy(is_fake =  it.value.prediction.stringToBoolean())
+                        addJob(value)
+                    }
+                    is OutCome.Error -> {
+                        _addJobState.value = AddJobState.Error(it.value.message)
+                    }
+                }
+            }
+        }
+    }
+
     fun searchJob(text: String) {
         _homeState.value = HomeState.Success(listJob.filter {
             it.title?.contains(text) ?: false
@@ -113,4 +136,11 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
     fun refreshListJob() {
         _homeState.value = HomeState.Success(listJob)
     }
+}
+
+fun String.stringToBoolean(): Boolean {
+    if(this == "1") {
+        return true
+    }
+    return false
 }

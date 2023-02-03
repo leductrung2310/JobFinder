@@ -27,6 +27,7 @@ fun Job.toMap(): Map<String, Any?> {
         "title" to this.title,
         "location" to this.location,
         "company_profile" to this.company_profile,
+        "company_email" to this.company_email,
         "requirements" to this.requirements,
         "telecommuting" to this.telecommuting,
         "has_company_logo" to this.has_company_logo,

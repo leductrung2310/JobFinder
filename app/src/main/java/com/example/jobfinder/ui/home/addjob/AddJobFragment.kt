@@ -26,9 +26,9 @@ class AddJobFragment : Fragment() {
     private var _binding: FragmentAddJobBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private var isTelecommuting: Int = 0
-    private var isLogo: Int = 0
-    private var isQuestion: Int = 0
+    private var isTelecommuting: Int = 1
+    private var isLogo: Int = 1
+    private var isQuestion: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -69,6 +69,7 @@ class AddJobFragment : Fragment() {
                         true
                     ).show()
                     findNavController().popBackStack()
+                    homeViewModel.setAddJobState()
                 }
                 is AddJobState.Error -> {
                     Toasty.error(
@@ -105,7 +106,7 @@ class AddJobFragment : Fragment() {
                     location = binding.location.text.toString(),
                     company_profile = binding.companyProfile.text.toString(),
                     company_email = binding.companyEmail.text.toString(),
-                    requirements = binding.companyEmail.text.toString(),
+                    requirements = binding.requirements.text.toString(),
                     telecommuting = isTelecommuting.toBoolean(),
                     has_company_logo = isLogo.toBoolean(),
                     has_questions = isQuestion.toBoolean(),
@@ -119,7 +120,7 @@ class AddJobFragment : Fragment() {
                     created_date = System.currentTimeMillis().toString(),
                     is_fake = false,
                 )
-                homeViewModel.addJob(job)
+                homeViewModel.checkFakeJob(job)
             } else {
                 Toasty.info(
                     requireContext(),

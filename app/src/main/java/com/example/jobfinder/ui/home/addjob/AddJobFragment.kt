@@ -115,7 +115,7 @@ class AddJobFragment : Fragment() {
                     required_education = binding.requiredEducation.selectedItem.toString(),
                     industry = binding.industrySpinner.selectedItem.toString(),
                     function = binding.functionSpinner.selectedItem.toString(),
-                    salary_range = binding.salaryRange.text.toString(),
+                    description = binding.salaryRange.text.toString(),
                     report_count = emptyList(),
                     created_date = System.currentTimeMillis().toString(),
                     is_fake = false,

@@ -26,7 +26,7 @@ class JobAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val job = jobs[position]
         holder.title.text = job.title
-        holder.salaryRange.text = job.salary_range
+        holder.salaryRange.text = job.employee_type
         holder.companyName.text = job.company_profile
         holder.location.text = job.location
         val calendar = Calendar.getInstance()

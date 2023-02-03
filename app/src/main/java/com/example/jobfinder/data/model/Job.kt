@@ -16,7 +16,7 @@ data class Job(
     val required_education: String? = null,
     val industry: String? = null,
     val function: String? = null,
-    val salary_range: String? = null,
+    val description: String? = null,
     val report_count: List<String>? = null,
     val created_date: String? = null,
     val is_fake: Boolean? = null
@@ -37,7 +37,7 @@ fun Job.toMap(): Map<String, Any?> {
         "required_education" to this.required_education,
         "industry" to this.industry,
         "function" to this.function,
-        "salary_range" to this.salary_range,
+        "description" to this.description,
         "report_count" to this.report_count,
         "created_date" to this.created_date,
         "is_fake" to this.is_fake

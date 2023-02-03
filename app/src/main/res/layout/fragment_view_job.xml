@@ -179,11 +179,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
-                    android:text="Company email: "
+                    android:text="Description: "
                     android:textSize="@dimen/_16sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/jobCompanyEmail"
+                    android:id="@+id/jobSalaryRange"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UI/UX Designer"
@@ -201,11 +201,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:maxLines="1"
-                    android:text="Salary range: "
+                    android:text="Company email: "
                     android:textSize="@dimen/_16sdp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/jobSalaryRange"
+                    android:id="@+id/jobCompanyEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UI/UX Designer"

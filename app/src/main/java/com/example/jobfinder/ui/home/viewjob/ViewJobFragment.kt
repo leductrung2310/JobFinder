@@ -49,7 +49,7 @@ class ViewJobFragment : Fragment() {
             binding.jobCompanyProfile.text = it.company_profile
             binding.jobCompanyEmail.text = it.company_email
             binding.jobRequirements.text = it.requirements
-            binding.jobSalaryRange.text = it.salary_range
+            binding.jobSalaryRange.text = it.description
             binding.jobTelecommuting.text = it.telecommuting?.toYesNo()
             binding.jobLogo.text = it.has_company_logo?.toYesNo()
             binding.jobQuestion.text = it.has_questions?.toYesNo()

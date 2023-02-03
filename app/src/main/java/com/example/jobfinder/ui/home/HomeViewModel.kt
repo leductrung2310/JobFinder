@@ -121,6 +121,7 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
                     }
                     is OutCome.Error -> {
                         _addJobState.value = AddJobState.Error(it.value.message)
+                        _isEnableAddJobButton.value = true
                     }
                 }
             }

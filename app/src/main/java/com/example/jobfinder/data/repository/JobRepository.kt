@@ -4,13 +4,17 @@ import com.example.jobfinder.core.OutCome
 import com.example.jobfinder.data.model.Job
 import com.example.jobfinder.data.model.Result
 import com.example.jobfinder.data.model.toMap
+import com.example.jobfinder.data.model.toMapToCheckFakeJob
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import javax.inject.Inject
 
 interface JobRepository {
@@ -21,9 +25,10 @@ interface JobRepository {
 }
 
 interface FakeJobAPI {
-    @GET("result")
-    @JvmSuppressWildcards
-    suspend fun checkFakeJob(): Result
+
+    @Headers("Content-Type: application/json")
+    @POST("result")
+    suspend fun checkFakeJob(@Body body: String): Result
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -64,8 +69,10 @@ class JobRepositoryImpl @Inject constructor(
 
     override suspend fun checkFakeJob(job: Job): Flow<OutCome<Result>> = flow {
         emit(OutCome.InProgress)
-        val result = fakeJobAPI.checkFakeJob()
-        emit(OutCome.Success(result))
+        val x = Gson().toJson(job.toMapToCheckFakeJob())
+        val replace =  x.replace("\"", "'")
+        val result = fakeJobAPI.checkFakeJob(x)
+        emit(OutCome.Success(Result("sd")))
     }.catch {
         emit(OutCome.Error(it))
     }.flowOn(ioDispatcher)

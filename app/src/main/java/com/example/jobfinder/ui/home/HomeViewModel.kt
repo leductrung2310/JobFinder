@@ -116,7 +116,7 @@ class HomeViewModel @Inject constructor(private val jobRepository: JobRepository
                         _addJobState.value = AddJobState.Loading
                     }
                     is OutCome.Success -> {
-                        val value = job.copy(is_fake =  it.value.prediction.stringToBoolean())
+                        val value = job.copy(is_fake =  it.value.predict.stringToBoolean())
                         addJob(value)
                     }
                     is OutCome.Error -> {

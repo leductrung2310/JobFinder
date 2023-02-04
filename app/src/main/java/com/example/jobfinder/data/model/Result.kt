@@ -1,3 +1,3 @@
 package com.example.jobfinder.data.model
 
-data class Result(val prediction: String)
+data class Result(val predict: String)

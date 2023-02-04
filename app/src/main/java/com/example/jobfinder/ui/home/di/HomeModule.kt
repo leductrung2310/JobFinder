@@ -20,12 +20,11 @@ import retrofit2.create
 @InstallIn(ViewModelComponent::class)
 class HomeModule {
     @Provides
-    fun provideRetrofit() : Retrofit {
-        val gson = GsonBuilder()
-            .setLenient()
+    fun provideRetrofit(): Retrofit {
+        val gson = GsonBuilder().setPrettyPrinting()
             .create()
         return Retrofit.Builder()
-            .baseUrl("http://192.168.2.26:5000/")
+            .baseUrl("http://192.168.8.42:5000/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
@@ -36,8 +35,12 @@ class HomeModule {
     }
 
     @Provides
-    fun provideJobRepository(firebaseFirestore: FirebaseFirestore, fakeJobAPI: FakeJobAPI, ioDispatcher: CoroutineDispatcher): JobRepository {
-        return JobRepositoryImpl(firebaseFirestore,fakeJobAPI, ioDispatcher)
+    fun provideJobRepository(
+        firebaseFirestore: FirebaseFirestore,
+        fakeJobAPI: FakeJobAPI,
+        ioDispatcher: CoroutineDispatcher
+    ): JobRepository {
+        return JobRepositoryImpl(firebaseFirestore, fakeJobAPI, ioDispatcher)
     }
 
 }

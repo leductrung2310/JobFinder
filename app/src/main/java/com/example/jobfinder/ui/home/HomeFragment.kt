@@ -19,6 +19,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -61,7 +62,7 @@ class HomeFragment : BaseFragment(), OnClickListener, OnLongClickListener {
     }
 
     private fun setUpObserver() {
-        homeViewModel.homeState.observe(viewLifecycleOwner) {
+        homeViewModel.homeState.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is HomeState.Waiting -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.GONE, View.GONE)
@@ -72,7 +73,8 @@ class HomeFragment : BaseFragment(), OnClickListener, OnLongClickListener {
                 }
                 is HomeState.Success -> {
                     setViewVisibilityWhenFetchingJob(View.GONE, View.GONE, View.VISIBLE)
-                    jobAdapter = JobAdapter(it.jobList, this, this)
+                    val sortedList = it.jobList.sortedBy { it.created_date }.reversed()
+                    jobAdapter = JobAdapter(sortedList, this, this)
                     binding.jobRcv.adapter = jobAdapter
                     Log.i("phat ndt", "home state success ${it.jobList.size}")
                 }

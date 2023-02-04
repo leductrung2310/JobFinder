@@ -70,9 +70,8 @@ class JobRepositoryImpl @Inject constructor(
     override suspend fun checkFakeJob(job: Job): Flow<OutCome<Result>> = flow {
         emit(OutCome.InProgress)
         val x = Gson().toJson(job.toMapToCheckFakeJob())
-        val replace =  x.replace("\"", "'")
         val result = fakeJobAPI.checkFakeJob(x)
-        emit(OutCome.Success(Result("sd")))
+        emit(OutCome.Success(Result(result.predict)))
     }.catch {
         emit(OutCome.Error(it))
     }.flowOn(ioDispatcher)
